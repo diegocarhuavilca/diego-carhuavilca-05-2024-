@@ -1,5 +1,9 @@
 <template>
-  <pokemon-card-detail :pokemon="pokemonData" :evolutionChain="[evolutionChain]" />
+  <pokemon-card-detail
+    :pokemon="pokemonData"
+    :evolutionChain="[evolutionChain]"
+    :description="description"
+  />
 </template>
 
 <script setup lang="ts">
@@ -17,9 +21,15 @@ const route = useRoute()
 const evolutionChain = ref()
 const idPokemon = Array.isArray(route.params.id) ? route.params.id[0] : route.params.id
 const pokemonData = computed(() => getPokemonById.value(idPokemon))
+const description = ref('')
 
 pokemonService.getSpecies(idPokemon).then((response) => {
   const id = response.data.evolution_chain.url.split('/').slice(-2)[0]
+  description.value = response.data.flavor_text_entries[0].flavor_text.replace(
+    /(\r\n|\n|\r|\f)/gm,
+    ' '
+  )
+
   pokemonService.getEvolutionChainById(id).then((response) => {
     evolutionChain.value = response.data.chain
   })

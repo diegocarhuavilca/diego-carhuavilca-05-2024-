@@ -41,6 +41,7 @@ const { getPokemonById } = storeToRefs(pokemonStore)
 
 const evolutionChainList = computed(() => {
   return props.evolutionChain.map((evolution) => {
+    if (!evolution) return null
     return {
       ...evolution,
       pokemon: evolution.species ? getPokemonData(evolution.species.url) : null

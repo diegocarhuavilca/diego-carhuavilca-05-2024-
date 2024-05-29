@@ -1,6 +1,7 @@
 <template>
   <div class="card">
     <pokemon-profile-card :pokemon />
+    <div class="pokemon-description">{{ description }}</div>
     <pokemon-sound-button :sound="pokemon.sound" class="audio" />
     <div class="general-info">
       <div class="content">
@@ -47,6 +48,10 @@ defineProps({
   evolutionChain: {
     type: Array as PropType<iEvolutionChain[]>,
     required: true
+  },
+  description: {
+    type: String,
+    required: false
   }
 })
 </script>
@@ -87,5 +92,9 @@ defineProps({
   position: absolute;
   right: 10px;
   top: 10px;
+}
+
+.pokemon-description {
+  text-align: center;
 }
 </style>
