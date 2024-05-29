@@ -1,51 +1,69 @@
 <template>
-  <div>
-    <div class="pokemon" v-for="evolution in evolutionChain" :key="evolution">
-      <template v-if="evolution">
-        <template v-if="evolution.species">
-          <div
-            class="card-pokemon"
-            :class="{ active: $route.params.id == getPokemonData(evolution.species.url).id }"
-          >
-            <pokemon-profile-card :pokemon="getPokemonData(evolution.species.url)" />
+  <div class="pokemon" v-for="evolution in evolutionChainList" :key="evolution">
+    <template v-if="evolution">
+      <template v-if="evolution.pokemon">
+        <div class="card-pokemon" :class="{ active: isActivePokemon(evolution.pokemon) }">
+          <pokemon-profile-card :pokemon="evolution.pokemon" />
+        </div>
+      </template>
+      <template v-if="evolution.evolves_to">
+        <template v-if="evolution.evolves_to.length > 0">
+          <div class="arrow-container">
+            <div class="arrow-down"></div>
           </div>
-        </template>
-        <template v-if="evolution.evolves_to">
-          <template v-if="evolution.evolves_to.length > 0">
-            <div class="arrow-container">
-              <div class="arrow-down"></div>
-            </div>
-            <PokemonEvolutionChain :evolutionChain="evolution.evolves_to" />
-          </template>
+          <PokemonEvolutionChain :evolutionChain="evolution.evolves_to" />
         </template>
       </template>
-    </div>
+    </template>
   </div>
 </template>
 
 <script setup lang="ts">
+import { type iEvolutionChain, type iPokemon } from '@/interfaces/pokemon'
 import { usePokemonStore } from '@/stores/pokemon'
 import { storeToRefs } from 'pinia'
+import type { PropType } from 'vue'
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 import PokemonProfileCard from './PokemonProfileCard.vue'
 
-defineProps({
+const props = defineProps({
   evolutionChain: {
-    type: Array,
+    type: Array as PropType<iEvolutionChain[]>,
     required: true,
     default: () => []
   }
 })
 
+const route = useRoute()
 const pokemonStore = usePokemonStore()
 const { getPokemonById } = storeToRefs(pokemonStore)
 
-function getPokemonData(url: string) {
-  return getPokemonById.value(getIdFromUrl(String(url)))
+const evolutionChainList = computed(() => {
+  return props.evolutionChain.map((evolution) => {
+    return {
+      ...evolution,
+      pokemon: evolution.species ? getPokemonData(evolution.species.url) : null
+    }
+  })
+})
+
+const pokemonId: Number = Array.isArray(route.params.id)
+  ? Number(route.params.id[0])
+  : Number(route.params.id)
+
+function getPokemonData(url: string): iPokemon {
+  const id = getIdFromUrl(url)
+  return getPokemonById.value(id)
 }
 
 function getIdFromUrl(url: string) {
   const urlParts = url.split('/')
   return urlParts[urlParts.length - 2]
+}
+
+function isActivePokemon(pokemon: iPokemon) {
+  return pokemon.id === pokemonId
 }
 </script>
 
@@ -67,7 +85,7 @@ function getIdFromUrl(url: string) {
   height: 0;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
-  border-top: 20px solid #ed2860;
+  border-top: 20px solid var(--base-red);
 }
 
 .card-pokemon {
@@ -77,7 +95,7 @@ function getIdFromUrl(url: string) {
 }
 
 .card-pokemon.active {
-  border: 1px solid #ed2860;
-  box-shadow: #ed2860 0px 0px 5px;
+  border: 1px solid var(--base-red);
+  box-shadow: var(--base-red) 0px 0px 5px;
 }
 </style>

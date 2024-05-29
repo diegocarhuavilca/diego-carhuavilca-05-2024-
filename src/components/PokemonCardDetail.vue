@@ -1,6 +1,7 @@
 <template>
   <div class="card">
     <pokemon-profile-card :pokemon />
+    <pokemon-sound-button :sound="pokemon.sound" class="audio" />
     <div class="general-info">
       <div class="content">
         <div class="title">Weight</div>
@@ -34,8 +35,9 @@ import PokemonEvolutionChain from '@/components/PokemonEvolutionChain.vue'
 import PokemonProfileCard from '@/components/PokemonProfileCard.vue'
 import PokemonStats from '@/components/PokemonStats.vue'
 import PokemonTypes from '@/components/PokemonTypes.vue'
-import { type iPokemon } from '@/interfaces/pokemon'
+import { type iEvolutionChain, type iPokemon } from '@/interfaces/pokemon'
 import type { PropType } from 'vue'
+import PokemonSoundButton from './PokemonSoundButton.vue'
 
 defineProps({
   pokemon: {
@@ -43,7 +45,7 @@ defineProps({
     required: true
   },
   evolutionChain: {
-    type: Array,
+    type: Array as PropType<iEvolutionChain[]>,
     required: true
   }
 })
@@ -53,9 +55,10 @@ defineProps({
 .card {
   border-radius: 10px;
   padding: 0.5em 1.5em;
-  box-shadow: #ed2860 0px 0px 5px;
+  box-shadow: var(--base-red) 0px 0px 5px;
   width: 100%;
   margin: auto;
+  position: relative;
 }
 .stats,
 .types .content {
@@ -69,6 +72,7 @@ defineProps({
   display: flex;
   justify-content: space-around;
   margin: 20px;
+  position: relative;
 }
 
 .types .title,
@@ -77,5 +81,11 @@ defineProps({
   margin-bottom: 0.5em;
   font-weight: bold;
   margin-top: 1em;
+}
+
+.audio {
+  position: absolute;
+  right: 10px;
+  top: 10px;
 }
 </style>

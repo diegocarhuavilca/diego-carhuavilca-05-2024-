@@ -1,8 +1,10 @@
 <template>
-  <audio :controls="false" ref="audioControl" :src="sound"></audio>
-  <button @click.stop="playAudio" class="audio">
-    <img src="@/assets/icons/audio.svg" height="20" />
-  </button>
+  <div>
+    <audio :controls="false" ref="audioControl" :src="sound"></audio>
+    <button @click.stop="playAudio" class="audio">
+      <img src="@/assets/icons/audio.svg" height="20" />
+    </button>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -25,12 +27,10 @@ function playAudio() {
 
 <style scoped>
 .audio {
-  position: absolute;
-  right: 0;
   background: transparent;
   border: none;
   cursor: pointer;
-  color: #ed2860;
+  color: var(--base-red);
   transition: 0.3s ease-in-out;
 }
 

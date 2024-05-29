@@ -22,7 +22,7 @@ defineProps({
 <style scoped>
 .types {
   text-align: center;
-  border: 1px solid #ed2860;
+  border: 1px solid var(--base-red);
   width: 150px;
   padding: 0.5em;
   border-radius: 10px;

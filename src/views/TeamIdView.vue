@@ -15,9 +15,10 @@ const { getPokemonById } = storeToRefs(pokemonStore)
 const route = useRoute()
 
 const evolutionChain = ref()
-const pokemonData = computed(() => getPokemonById.value(route.params.id))
+const idPokemon = Array.isArray(route.params.id) ? route.params.id[0] : route.params.id
+const pokemonData = computed(() => getPokemonById.value(idPokemon))
 
-pokemonService.getSpecies(Number(route.params.id)).then((response) => {
+pokemonService.getSpecies(idPokemon).then((response) => {
   const id = response.data.evolution_chain.url.split('/').slice(-2)[0]
   pokemonService.getEvolutionChainById(id).then((response) => {
     evolutionChain.value = response.data.chain

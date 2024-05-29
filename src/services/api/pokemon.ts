@@ -1,10 +1,10 @@
 import BaseApi from './base'
 
 const pokemonService = {
-  async getPokemonById(id: number) {
-    return BaseApi.get(`pokemon/${id}`)
+  async getPokemonById(id: number | string) {
+    return await BaseApi.get(`pokemon/${id}`)
   },
-  async getSpecies(id: number) {
+  async getSpecies(id: number | string) {
     return BaseApi.get(`pokemon-species/${id}`)
   },
   async getEvolutionChainById(id: number) {

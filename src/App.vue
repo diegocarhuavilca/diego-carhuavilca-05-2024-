@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import LoadingSpinner from '@/components/shared/LoadingSpinner.vue'
 import { useGlobalStore } from '@/stores/global'
 import { computed } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
@@ -10,11 +11,15 @@ const isLoading = computed(() => globalStore.isLoading)
 
 <template>
   <div class="navbar">
-    <RouterLink to="/" activeClass="active-link">Home</RouterLink>
+    <RouterLink to="/">Home</RouterLink>
     <RouterLink to="/team">Team</RouterLink>
   </div>
 
-  <template v-if="isLoading"> Loading </template>
+  <template v-if="isLoading">
+    <div class="spinner-container">
+      <loading-spinner />
+    </div>
+  </template>
   <template v-else>
     <RouterView />
   </template>
@@ -30,11 +35,13 @@ const isLoading = computed(() => globalStore.isLoading)
 
 .navbar a {
   text-decoration: none;
-  color: #ed2860;
+  color: var(--base-red);
   font-weight: bold;
 }
 
-.active-link {
-  color: blue;
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
 }
 </style>

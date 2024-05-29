@@ -25,3 +25,11 @@ export interface iPokemonType {
     url: string
   }
 }
+
+export interface iEvolutionChain {
+  species: {
+    name: string
+    url: string
+  }
+  evolves_to: []
+}

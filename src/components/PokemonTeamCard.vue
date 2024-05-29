@@ -51,8 +51,9 @@ function cardClick(pokemon: object) {
   border-radius: 10px;
   margin: 20px 0;
   padding: 0.5em 1.5em;
-  box-shadow: #ed2860 0px 0px 5px;
+  box-shadow: var(--base-red) 0px 0px 5px;
   cursor: pointer;
+  position: relative;
 }
 .card .left {
   margin: auto;
@@ -65,18 +66,17 @@ function cardClick(pokemon: object) {
   justify-content: space-around;
   width: 100%;
   height: 100%;
-  position: relative;
   flex-wrap: wrap;
 }
 
 .card .remove {
   position: absolute;
-  right: 0;
-  top: 15%;
+  right: 10px;
+  top: 50px;
   background: transparent;
   border: none;
   cursor: pointer;
-  color: #ed2860;
+  color: var(--base-red);
   transition: 0.3s ease-in-out;
 }
 
@@ -91,11 +91,17 @@ function cardClick(pokemon: object) {
 
 .card .right .column .types {
   text-align: center;
-  border: 1px solid #ed2860;
+  border: 1px solid var(--base-red);
   width: 150px;
   padding: 0.5em;
   border-radius: 10px;
   margin: 1em 0;
+}
+
+.audio {
+  position: absolute;
+  right: 10px;
+  top: 10px;
 }
 
 @media only screen and (max-width: 768px) {
